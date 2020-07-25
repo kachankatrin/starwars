@@ -1,26 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import People from "./containers/People";
+import Films from "./containers/Films";
+import Vehicles from "./containers/Vehicles";
+import Planets from "./containers/Planets";
+import Species from "./containers/Species";
+import Starships from "./containers/Starships";
+import Main from "./containers/Main";
+import Navigation from "./components/Navbar.jsx";
+import {Switch, Route, Link } from 'react-router-dom';
+import { Nav } from 'react-bootstrap';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <Navigation>
+          <Nav.Link href="/">Main</Nav.Link>
+          <Nav.Link href="/people">People</Nav.Link>
+          <Nav.Link href="/planets">Planets</Nav.Link>
+          <Nav.Link href="/films">Films</Nav.Link>
+          <Nav.Link href="/vehicles">Vehicles</Nav.Link>
+          <Nav.Link href="/species">Species</Nav.Link>
+          <Nav.Link href="/starships">Starships</Nav.Link>
+        </Navigation>
+        <Switch>
+          <Route path="/" exact={true} component={Main} />
+          <Route path="/people" component={People} />
+          <Route path="/planets" component={Planets} />
+          <Route path="/films" component={Films} />
+          <Route path="/vehicles" component={Vehicles} />
+          <Route path="/species" component={Species} />
+          <Route path="/starships" component={Starships} />
+        </Switch>
+      </div>
+    );
+  }
 }
-
+// const mapStateToProps = (state) => {
+//   return {
+//     mainState: state.mainState
+//   }
+// }
+// export default connect(mapStateToProps)(App);
 export default App;
