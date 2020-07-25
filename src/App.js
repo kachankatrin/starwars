@@ -8,8 +8,7 @@ import Species from "./containers/Species";
 import Starships from "./containers/Starships";
 import Main from "./containers/Main";
 import Navigation from "./components/Navbar.jsx";
-import {Switch, Route, Link } from 'react-router-dom';
-import { Nav } from 'react-bootstrap';
+import {Switch, Route, Nav } from 'react-router-dom';
 
 class App extends React.Component {
   render() {
@@ -37,10 +36,4 @@ class App extends React.Component {
     );
   }
 }
-// const mapStateToProps = (state) => {
-//   return {
-//     mainState: state.mainState
-//   }
-// }
-// export default connect(mapStateToProps)(App);
 export default App;

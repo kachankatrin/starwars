@@ -2,6 +2,7 @@ import React from "react";
 import "../App.css";
 import { fetchDataAxios } from "../store/actions/Actions";
 import { connect } from "react-redux";
+import GridComponent from "../components/GridComponent";
 
 class Vehicles extends React.Component {
   componentDidMount() {
@@ -11,6 +12,7 @@ class Vehicles extends React.Component {
   render() {
     return (<div>
         <h1>Vehicles</h1>
+        <GridComponent loading={this.props.mainState.loading} currenteData={this.props.mainState.vehiclesData}/>
     </div>);
   }
 }

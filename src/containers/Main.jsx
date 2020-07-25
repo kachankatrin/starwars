@@ -17,7 +17,7 @@ class Main extends React.Component {
               classical mythology, as well as musical motifs of those aspects.
             </p>
             <Image
-              src="https://i.etsystatic.com/13702629/r/il/067798/1979047720/il_1588xN.1979047720_kthx.jpg"
+              src="https://cdn.pocket-lint.com/r/s/1200x/assets/images/147767-tv-feature-what-order-should-you-watch-all-the-star-wars-films-image1-1wdfjceytb.jpg"
               fluid
             />
             <p>

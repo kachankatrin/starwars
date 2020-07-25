@@ -2,6 +2,9 @@ import React from "react";
 import "../App.css";
 import { fetchDataAxios } from "../store/actions/Actions";
 import { connect } from "react-redux";
+// import Loader from "../components/Loader";
+// import SingleCard from "../components/SingleCard";
+import GridComponent from "../components/GridComponent"
 
 class People extends React.Component {
   componentDidMount() {
@@ -9,10 +12,26 @@ class People extends React.Component {
     this.props.dispatch(fetchDataAxios("peopleData", "people"));
   }
   render() {
-      console.log(this.props.mainState.peopleData.length && this.props.mainState.peopleData[0].name)
-    return (<div>
+    return (
+      <div>
         <h1>People</h1>
-    </div>);
+        {/* {!this.props.mainState.loading ? (
+          this.props.mainState.peopleData.length ? (
+            <ul className="starwarsData-grid">
+              {this.props.mainState.peopleData.map((item) => (
+                // <li>{item.name}</li>
+                <SingleCard name={item.name} />
+              ))}
+            </ul>
+          ) : (
+            "no people"
+          )
+        ) : (
+          <Loader />
+        )} */}
+        <GridComponent loading={this.props.mainState.loading} currenteData={this.props.mainState.peopleData} people={this.props.mainState.peopleData}/>
+      </div>
+    );
   }
 }
 const mapStateToProps = (state) => {

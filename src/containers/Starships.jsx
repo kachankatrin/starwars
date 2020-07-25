@@ -1,6 +1,7 @@
 import React from "react";
 import { fetchDataAxios } from "../store/actions/Actions";
 import { connect } from "react-redux";
+import GridComponent from "../components/GridComponent";
 
 class Starships extends React.Component {
   componentDidMount() {
@@ -11,6 +12,8 @@ class Starships extends React.Component {
     return (
       <div>
         <h1>Starships</h1>
+        <GridComponent loading={this.props.mainState.loading} currenteData={this.props.mainState.starshipsData}/>
+
       </div>
     );
   }

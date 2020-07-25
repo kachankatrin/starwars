@@ -4,7 +4,7 @@ import {
   FETCH_DATA_FAILURE,
 } from "../actions/ActionsConstants";
 let initStore = {
-  peopleData: [],
+  loading: true
 };
 
 export const mainReducer = (initialState = initStore, action) => {
