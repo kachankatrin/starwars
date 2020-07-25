@@ -8,7 +8,8 @@ import Species from "./containers/Species";
 import Starships from "./containers/Starships";
 import Main from "./containers/Main";
 import Navigation from "./components/Navbar.jsx";
-import {Switch, Route, Nav } from 'react-router-dom';
+import {Switch, Route } from 'react-router-dom';
+import { Nav } from 'react-bootstrap';
 
 class App extends React.Component {
   render() {

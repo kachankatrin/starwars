@@ -3,7 +3,9 @@ import {
   FETCH_DATA_BEGIN,
   FETCH_DATA_SUCCESS,
   FETCH_DATA_FAILURE,
+  CHANGE_SEARCH,
 } from "./ActionsConstants";
+import { url } from "../../utils";
 
 export function fetchDataAxios(key, query) {
   return (dispatch) => {
@@ -27,7 +29,7 @@ export function fetchDataAxios(key, query) {
         .catch((error) => dispatch(fetchDataFailure(error)));
       return response;
     };
-    getAllData(`https://swapi.dev/api/${query}`);
+    getAllData(`${url}${query}`);
     return response;
   };
 }
@@ -42,8 +44,14 @@ export const fetchDataSuccess = (key, data) => ({
     key,
   },
 });
-
 export const fetchDataFailure = (error) => ({
   type: FETCH_DATA_FAILURE,
   payload: { error },
 });
+
+export const handleInput = (value, key) => {
+  return {
+    type: CHANGE_SEARCH,
+    payload: { value: value, key },
+  };
+};

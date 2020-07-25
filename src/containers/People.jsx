@@ -1,35 +1,43 @@
 import React from "react";
 import "../App.css";
-import { fetchDataAxios } from "../store/actions/Actions";
+import { fetchDataAxios, handleInput } from "../store/actions/Actions";
 import { connect } from "react-redux";
-// import Loader from "../components/Loader";
-// import SingleCard from "../components/SingleCard";
-import GridComponent from "../components/GridComponent"
+import Search from "../components/Search";
+import GridComponent from "../components/GridComponent";
+import _ from "lodash";
 
 class People extends React.Component {
   componentDidMount() {
     console.log("mount");
     this.props.dispatch(fetchDataAxios("peopleData", "people"));
   }
+  debounced = _.debounce((e) => {
+    this.props.dispatch(fetchDataAxios("peopleData", `people?search=${e}`));
+  }, 200, { 'leading': false });
   render() {
     return (
       <div>
         <h1>People</h1>
-        {/* {!this.props.mainState.loading ? (
-          this.props.mainState.peopleData.length ? (
-            <ul className="starwarsData-grid">
-              {this.props.mainState.peopleData.map((item) => (
-                // <li>{item.name}</li>
-                <SingleCard name={item.name} />
-              ))}
-            </ul>
-          ) : (
-            "no people"
-          )
-        ) : (
-          <Loader />
-        )} */}
-        <GridComponent loading={this.props.mainState.loading} currenteData={this.props.mainState.peopleData} people={this.props.mainState.peopleData}/>
+        <Search
+          handleInput={(e) => {
+            // this.props.dispatch(handleInput(e.target.value, "searchPeople"));
+            this.debounced(e.target.value);
+          }}
+        //   handleClick={() => {
+        //     this.props.dispatch(
+        //       fetchDataAxios(
+        //         "peopleData",
+        //         `people?search=${this.props.mainState.searchPeople}`
+        //       )
+        //     );
+        //   }}
+        //   search={e.target.value}
+        />
+        <GridComponent
+          loading={this.props.mainState.loading}
+          currenteData={this.props.mainState.peopleData}
+          people={this.props.mainState.peopleData}
+        />
       </div>
     );
   }
