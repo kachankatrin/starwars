@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import App from './App';
-import { Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import {createBrowserHistory} from 'history';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';

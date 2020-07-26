@@ -1,76 +1,45 @@
 import axios from "axios";
+import { url, sortData } from "../../utils";
 import {
   FETCH_DATA_BEGIN,
   FETCH_DATA_SUCCESS,
-  FETCH_DATA_FAILURE,
-  CHANGE_SEARCH,
-  OPEN_MODAL
+  FETCH_DATA_FAILURE
 } from "./ActionsConstants";
-import { url } from "../../utils";
 
-export function fetchDataAxios(key, query) {
+export function fetchDataAxios(key, query, sortKey) {
   return (dispatch) => {
     dispatch(fetchDataBegin());
-    let response;
     let fetchedData = [];
     const getAllData = (mainQuery) => {
-      response = axios
+      return axios
         .get(mainQuery)
         .then((res) => {
-        //   console.log(mainQuery);
-          // sorted by default
-          fetchedData = [
-            ...fetchedData.concat(res.data.results).sort(function (a, b) {
-              if (a.name && b.name) {
-                if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
-                if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
-              }
-              if (a.title && b.title) {
-                if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
-                if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
-              }
-              return 0;
-            }),
-          ];
-        //   console.log(fetchedData);
+          fetchedData = fetchedData.concat(res.data.results);
           if (res.data.next !== null) {
-            mainQuery = res.data.next;
-            getAllData(mainQuery);
-          }
-          console.log(res.data.results);
-          dispatch(fetchDataSuccess(key, fetchedData));
+            getAllData(res.data.next);
+          } else {
+            dispatch(fetchDataSuccess(key, fetchedData, sortKey));
+          } 
         })
         .catch((error) => dispatch(fetchDataFailure(error)));
-      return response;
     };
-    getAllData(`${url}${query}`);
-    return response;
+    return getAllData(`${url}${query}`);
   };
 }
+
 export const fetchDataBegin = () => ({
   type: FETCH_DATA_BEGIN,
 });
 
-export const fetchDataSuccess = (key, data) => ({
+export const fetchDataSuccess = (key, data, sortKey) => ({
   type: FETCH_DATA_SUCCESS,
   payload: {
-    result: data,
+    result: sortData(data, sortKey),
     key,
   },
 });
+
 export const fetchDataFailure = (error) => ({
   type: FETCH_DATA_FAILURE,
   payload: { error },
 });
-
-export const handleInput = (value, key) => {
-  return {
-    type: CHANGE_SEARCH,
-    payload: { value: value, key },
-  };
-};
-export const handleModalOpen = (e) => {
-    return {
-      type: OPEN_MODAL,
-    }
-  }

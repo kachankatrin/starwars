@@ -1,18 +1,12 @@
-import React from 'react'
-// import { Button } from "react-bootstrap";
-// import _ from "lodash";
+import React from "react";
 export default function Search(props) {
-    return (
-        <div>
-            <form>
-            <input 
-              type='search'
-              onChange={props.handleInput}
-              value={props.search}
-              placeholder='Search...'
-            />
-            {/* <Button onClick={props.handleClick}>Search</Button> */}
-            </form>
-        </div>
-    )
+  return (
+    <div className="input-search"> 
+      <input
+        type="search"
+        onChange={props.handleInput}
+        placeholder="Search..."
+      />
+    </div>
+  );
 }

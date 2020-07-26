@@ -2,27 +2,27 @@ import React from "react";
 import Loader from "../components/Loader";
 import SingleCard from "../components/SingleCard";
 import { splitId } from "../utils";
+
 export default function GridComponent(props) {
   return !props.loading ? (
-    props.currenteData.length ? (
+    props.currentData && props.currentData.length ? (
       <ul className="starwarsData-grid">
-        {props.currenteData.map((item) => (
+        {props.currentData.map((item) => (
           <SingleCard
-            people={props.people}
-            entety={item}
-            planets={props.planets}
-            films={props.films}
-            entetyCategory={props.entetyCategory}
-            ClickHandler={() => {
+            entity={item}
+            entityCategory={props.entityCategory}
+            renderEntity={props.renderEntity}
+            renderTitle={props.renderTitle}
+            clickHandler={() => {
               props.history.push(
-                `/${props.entetyCategory}/${splitId(item.url)}`
+                `/${props.entityCategory}/${splitId(item.url)}`
               );
             }}
           />
         ))}
       </ul>
     ) : (
-      "no people"
+      `no ${props.entityCategory}`
     )
   ) : (
     <Loader />

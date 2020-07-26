@@ -7,10 +7,25 @@ import { debouncedDispatch } from "../utils";
 import Search from "../components/Search";
 
 class Films extends React.Component {
+
   componentDidMount() {
     console.log("mount");
-    this.props.dispatch(fetchDataAxios("filmsData", "films"));
+    this.props.dispatch(fetchDataAxios("filmsData", "films", "title"));
   }
+
+  renderFilm = ({ episode_id, producer, release_date, director }) => {
+    return (
+      <ul>
+        <li>Episode: {episode_id}</li>
+        <li>Producer: {producer}</li>
+        <li>Release: {release_date}</li>
+        <li>Director: {director}</li>
+      </ul>
+    );
+  };
+
+  renderTitle = ({ title }) => title;
+
   render() {
     return (
       <div>
@@ -19,24 +34,28 @@ class Films extends React.Component {
           handleInput={(e) => {
             debouncedDispatch(
               this.props.dispatch,
-              fetchDataAxios("filmsData", `films?search=${e.target.value}`)
+              fetchDataAxios("filmsData", `films?search=${e.target.value}`, "title")
             );
           }}
         />
         <GridComponent
-          loading={this.props.mainState.loading}
-          currenteData={this.props.mainState.filmsData}
-          films={this.props.mainState.filmsData}
+          loading={this.props.loading}
+          currentData={this.props.filmsData}
           history={this.props.history}
-          entetyCategory="films"
+          entityCategory="films"
+          renderEntity={this.renderFilm}
+          renderTitle={this.renderTitle}
         />
       </div>
     );
   }
 }
+
 const mapStateToProps = (state) => {
   return {
-    mainState: state.mainState,
+    loading: state.mainState.loading,
+    filmsData: state.mainState.filmsData,
   };
 };
+
 export default connect(mapStateToProps)(Films);

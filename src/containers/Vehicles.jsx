@@ -9,8 +9,21 @@ import Search from "../components/Search";
 class Vehicles extends React.Component {
   componentDidMount() {
     console.log("mount");
-    this.props.dispatch(fetchDataAxios("vehiclesData", "vehicles"));
+    this.props.dispatch(fetchDataAxios("vehiclesData", "vehicles", "name"));
   }
+
+  renderTitle = ({ name }) => name;
+
+  renderVehicle = ({model, manufacturer, vehicle_class}) => {
+    return (
+      <ul>
+        <li>Model: {model}</li>
+        <li>Vehicle class: {vehicle_class}</li>
+        <li>Manufacturer: {manufacturer}</li>
+      </ul>
+    );
+  };
+
   render() {
     return (
       <div>
@@ -21,25 +34,31 @@ class Vehicles extends React.Component {
               this.props.dispatch,
               fetchDataAxios(
                 "vehiclesData",
-                `vehicles?search=${e.target.value}`
+                `vehicles?search=${e.target.value}`,
+                "name"
               )
             );
           }}
         />
         <GridComponent
-          loading={this.props.mainState.loading}
-          currenteData={this.props.mainState.vehiclesData}
-          vehicles={this.props.mainState.vehiclesData}
+          loading={this.props.loading}
+          currentData={this.props.vehiclesData}
           history={this.props.history}
-          entetyCategory="vehicles"
+          entityCategory="vehicles"
+          renderTitle={this.renderTitle}
+          renderEntity={this.renderVehicle}
         />
       </div>
     );
   }
 }
+
 const mapStateToProps = (state) => {
   return {
-    mainState: state.mainState,
+    loading: state.mainState.loading,
+    vehiclesData: state.mainState.vehiclesData
+
   };
 };
+
 export default connect(mapStateToProps)(Vehicles);

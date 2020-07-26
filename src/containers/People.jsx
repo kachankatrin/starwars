@@ -1,9 +1,6 @@
 import React from "react";
 import "../App.css";
-import {
-  fetchDataAxios,
-  handleModalOpen,
-} from "../store/actions/Actions";
+import { fetchDataAxios } from "../store/actions/Actions";
 import { connect } from "react-redux";
 import Search from "../components/Search";
 import GridComponent from "../components/GridComponent";
@@ -11,9 +8,22 @@ import { debouncedDispatch } from "../utils";
 
 class People extends React.Component {
   componentDidMount() {
-    console.log("mount");
-    this.props.dispatch(fetchDataAxios("peopleData", "people"));
+    this.props.dispatch(fetchDataAxios("peopleData", "people", "name"));
   }
+
+  renderPeople = ({ eye_color, skin_color, hair_color, gender }) => {
+    return (
+      <ul>
+        <li>Eyecolor: {eye_color}</li>
+        <li>Skincolor: {skin_color}</li>
+        <li>Haircolor: {hair_color}</li>
+        <li>Gender: {gender}</li>
+      </ul>
+    );
+  };
+
+  renderTitle = ({ name }) => name;
+
   render() {
     return (
       <div>
@@ -22,20 +32,17 @@ class People extends React.Component {
           handleInput={(e) => {
             debouncedDispatch(
               this.props.dispatch,
-              fetchDataAxios("peopleData", `people?search=${e.target.value}`)
+              fetchDataAxios("peopleData", `people?search=${e.target.value}`, "name")
             );
           }}
         />
-        <MyVerticallyCenteredModal
-          show={this.props.mainState.isModalOpen}
-          onHide={(e) => this.props.dispatch(handleModalOpen(e))}
-        />
         <GridComponent
-          loading={this.props.mainState.loading}
-          currenteData={this.props.mainState.peopleData}
-          people={this.props.mainState.peopleData}
+          loading={this.props.loading}
+          currentData={this.props.peopleData}
           history={this.props.history}
-          entetyCategory="people"
+          entityCategory="people"
+          renderEntity={this.renderPeople}
+          renderTitle={this.renderTitle}
         />
       </div>
     );
@@ -43,7 +50,8 @@ class People extends React.Component {
 }
 const mapStateToProps = (state) => {
   return {
-    mainState: state.mainState,
+    loading: state.mainState.loading,
+    peopleData: state.mainState.peopleData,
   };
 };
 export default connect(mapStateToProps)(People);

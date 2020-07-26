@@ -8,8 +8,21 @@ import Search from "../components/Search";
 class Starships extends React.Component {
   componentDidMount() {
     console.log("mount");
-    this.props.dispatch(fetchDataAxios("starshipsData", "starships"));
+    this.props.dispatch(fetchDataAxios("starshipsData", "starships", "name"));
   }
+
+  renderStarship = ({name, consumables, model}) => {
+    return (
+      <ul>
+        <li>Name: {name}</li>
+        <li>Consumables: {consumables}</li>
+        <li>Model: {model}</li>
+      </ul>
+    );
+  };
+
+  renderTitle = ({ name }) => name;
+
   render() {
     return (
       <div>
@@ -20,25 +33,30 @@ class Starships extends React.Component {
               this.props.dispatch,
               fetchDataAxios(
                 "starshipsData",
-                `starships?search=${e.target.value}`
+                `starships?search=${e.target.value}`,
+                "name"
               )
             );
           }}
         />
         <GridComponent
-          loading={this.props.mainState.loading}
-          currenteData={this.props.mainState.starshipsData}
-          starships={this.props.mainState.starshipsData}
+          loading={this.props.loading}
+          currentData={this.props.starshipsData}
           history={this.props.history}
-          entetyCategory="starships"
+          entityCategory="starships"
+          renderTitle={this.renderTitle}
+          renderEntity={this.renderStarship}
         />
       </div>
     );
   }
 }
+
 const mapStateToProps = (state) => {
   return {
-    mainState: state.mainState,
+    loading: state.mainState.loading,
+    starshipsData: state.mainState.starshipsData
   };
 };
+
 export default connect(mapStateToProps)(Starships);
