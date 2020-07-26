@@ -2,6 +2,8 @@ import React from "react";
 import { fetchDataAxios } from "../store/actions/Actions";
 import { connect } from "react-redux";
 import GridComponent from "../components/GridComponent";
+import { debouncedDispatch } from "../utils";
+import Search from "../components/Search";
 
 class Starships extends React.Component {
   componentDidMount() {
@@ -12,8 +14,24 @@ class Starships extends React.Component {
     return (
       <div>
         <h1>Starships</h1>
-        <GridComponent loading={this.props.mainState.loading} currenteData={this.props.mainState.starshipsData}/>
-
+        <Search
+          handleInput={(e) => {
+            debouncedDispatch(
+              this.props.dispatch,
+              fetchDataAxios(
+                "starshipsData",
+                `starships?search=${e.target.value}`
+              )
+            );
+          }}
+        />
+        <GridComponent
+          loading={this.props.mainState.loading}
+          currenteData={this.props.mainState.starshipsData}
+          starships={this.props.mainState.starshipsData}
+          history={this.props.history}
+          entetyCategory="starships"
+        />
       </div>
     );
   }

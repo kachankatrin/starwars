@@ -3,6 +3,8 @@ import "../App.css";
 import { fetchDataAxios } from "../store/actions/Actions";
 import { connect } from "react-redux";
 import GridComponent from "../components/GridComponent";
+import { debouncedDispatch } from "../utils";
+import Search from "../components/Search";
 
 class Vehicles extends React.Component {
   componentDidMount() {
@@ -10,10 +12,29 @@ class Vehicles extends React.Component {
     this.props.dispatch(fetchDataAxios("vehiclesData", "vehicles"));
   }
   render() {
-    return (<div>
+    return (
+      <div>
         <h1>Vehicles</h1>
-        <GridComponent loading={this.props.mainState.loading} currenteData={this.props.mainState.vehiclesData}/>
-    </div>);
+        <Search
+          handleInput={(e) => {
+            debouncedDispatch(
+              this.props.dispatch,
+              fetchDataAxios(
+                "vehiclesData",
+                `vehicles?search=${e.target.value}`
+              )
+            );
+          }}
+        />
+        <GridComponent
+          loading={this.props.mainState.loading}
+          currenteData={this.props.mainState.vehiclesData}
+          vehicles={this.props.mainState.vehiclesData}
+          history={this.props.history}
+          entetyCategory="vehicles"
+        />
+      </div>
+    );
   }
 }
 const mapStateToProps = (state) => {

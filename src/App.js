@@ -10,6 +10,7 @@ import Main from "./containers/Main";
 import Navigation from "./components/Navbar.jsx";
 import {Switch, Route } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
+import EntetyInfo from "./containers/EntetyInfo.jsx"
 
 class App extends React.Component {
   render() {
@@ -26,15 +27,17 @@ class App extends React.Component {
         </Navigation>
         <Switch>
           <Route path="/" exact={true} component={Main} />
-          <Route path="/people" component={People} />
-          <Route path="/planets" component={Planets} />
-          <Route path="/films" component={Films} />
-          <Route path="/vehicles" component={Vehicles} />
-          <Route path="/species" component={Species} />
-          <Route path="/starships" component={Starships} />
+          <Route path="/people/" exact component={People} />
+          <Route path="/:entetyCategory/:id" component={EntetyInfo} />
+          <Route path="/planets/" exact component={Planets} />
+          <Route path="/films/" exact component={Films} />
+          <Route path="/vehicles/" exact component={Vehicles} />
+          <Route path="/species/" exact component={Species} />
+          <Route path="/starships/" exact component={Starships} />
+
         </Switch>
       </div>
     );
   }
 }
-export default App;
+export default (App);

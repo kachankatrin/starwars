@@ -2,11 +2,13 @@ import {
   FETCH_DATA_BEGIN,
   FETCH_DATA_SUCCESS,
   FETCH_DATA_FAILURE,
-  CHANGE_SEARCH
+  CHANGE_SEARCH,
+  OPEN_MODAL
 } from "../actions/ActionsConstants";
 let initStore = {
   loading: true,
-  searchPeople: ''
+  searchPeople: '',
+  isModalOpen: false
 };
 
 export const mainReducer = (initialState = initStore, action) => {
@@ -35,6 +37,12 @@ export const mainReducer = (initialState = initStore, action) => {
     return {
       ...initialState,
       [action.payload.key]: action.payload.value,
+    }
+  }
+  if (action.type === OPEN_MODAL) {
+    return {
+      ...initialState,
+      isModalOpen: !initialState.isModalOpen
     }
   }
   return {

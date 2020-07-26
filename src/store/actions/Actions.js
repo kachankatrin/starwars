@@ -4,6 +4,7 @@ import {
   FETCH_DATA_SUCCESS,
   FETCH_DATA_FAILURE,
   CHANGE_SEARCH,
+  OPEN_MODAL
 } from "./ActionsConstants";
 import { url } from "../../utils";
 
@@ -16,9 +17,22 @@ export function fetchDataAxios(key, query) {
       response = axios
         .get(mainQuery)
         .then((res) => {
-          console.log(mainQuery);
-          fetchedData = [...fetchedData.concat(res.data.results)];
-          console.log(fetchedData);
+        //   console.log(mainQuery);
+          // sorted by default
+          fetchedData = [
+            ...fetchedData.concat(res.data.results).sort(function (a, b) {
+              if (a.name && b.name) {
+                if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+                if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+              }
+              if (a.title && b.title) {
+                if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
+                if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
+              }
+              return 0;
+            }),
+          ];
+        //   console.log(fetchedData);
           if (res.data.next !== null) {
             mainQuery = res.data.next;
             getAllData(mainQuery);
@@ -55,3 +69,8 @@ export const handleInput = (value, key) => {
     payload: { value: value, key },
   };
 };
+export const handleModalOpen = (e) => {
+    return {
+      type: OPEN_MODAL,
+    }
+  }

@@ -1,42 +1,41 @@
 import React from "react";
 import "../App.css";
-import { fetchDataAxios, handleInput } from "../store/actions/Actions";
+import {
+  fetchDataAxios,
+  handleModalOpen,
+} from "../store/actions/Actions";
 import { connect } from "react-redux";
 import Search from "../components/Search";
 import GridComponent from "../components/GridComponent";
-import _ from "lodash";
+import { debouncedDispatch } from "../utils";
 
 class People extends React.Component {
   componentDidMount() {
     console.log("mount");
     this.props.dispatch(fetchDataAxios("peopleData", "people"));
   }
-  debounced = _.debounce((e) => {
-    this.props.dispatch(fetchDataAxios("peopleData", `people?search=${e}`));
-  }, 200, { 'leading': false });
   render() {
     return (
       <div>
         <h1>People</h1>
         <Search
           handleInput={(e) => {
-            // this.props.dispatch(handleInput(e.target.value, "searchPeople"));
-            this.debounced(e.target.value);
+            debouncedDispatch(
+              this.props.dispatch,
+              fetchDataAxios("peopleData", `people?search=${e.target.value}`)
+            );
           }}
-        //   handleClick={() => {
-        //     this.props.dispatch(
-        //       fetchDataAxios(
-        //         "peopleData",
-        //         `people?search=${this.props.mainState.searchPeople}`
-        //       )
-        //     );
-        //   }}
-        //   search={e.target.value}
+        />
+        <MyVerticallyCenteredModal
+          show={this.props.mainState.isModalOpen}
+          onHide={(e) => this.props.dispatch(handleModalOpen(e))}
         />
         <GridComponent
           loading={this.props.mainState.loading}
           currenteData={this.props.mainState.peopleData}
           people={this.props.mainState.peopleData}
+          history={this.props.history}
+          entetyCategory="people"
         />
       </div>
     );
