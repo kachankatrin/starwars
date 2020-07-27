@@ -8,13 +8,12 @@ import Search from "../components/Search";
 
 class Vehicles extends React.Component {
   componentDidMount() {
-    console.log("mount");
-    this.props.dispatch(fetchDataAxios("vehiclesData", "vehicles", "name"));
+    this.props.dispatch(fetchDataAxios("vehiclesData", "vehicles/", "name"));
   }
 
   renderTitle = ({ name }) => name;
 
-  renderVehicle = ({model, manufacturer, vehicle_class}) => {
+  renderVehicle = ({ model, manufacturer, vehicle_class }) => {
     return (
       <ul>
         <li>Model: {model}</li>
@@ -34,7 +33,7 @@ class Vehicles extends React.Component {
               this.props.dispatch,
               fetchDataAxios(
                 "vehiclesData",
-                `vehicles?search=${e.target.value}`,
+                `vehicles/?search=${e.target.value}`,
                 "name"
               )
             );
@@ -56,8 +55,7 @@ class Vehicles extends React.Component {
 const mapStateToProps = (state) => {
   return {
     loading: state.mainState.loading,
-    vehiclesData: state.mainState.vehiclesData
-
+    vehiclesData: state.mainState.vehiclesData,
   };
 };
 

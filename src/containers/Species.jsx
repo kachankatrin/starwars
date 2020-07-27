@@ -7,13 +7,12 @@ import Search from "../components/Search";
 
 class Species extends React.Component {
   componentDidMount() {
-    console.log("mount");
-    this.props.dispatch(fetchDataAxios("speciesData", "species", "name"));
+    this.props.dispatch(fetchDataAxios("speciesData", "species/", "name"));
   }
 
   renderTitle = ({ name }) => name;
 
-  renderSpecies = ({name, skin_colors, language}) => {
+  renderSpecies = ({ name, skin_colors, language }) => {
     return (
       <ul>
         <li>Name: {name}</li>
@@ -31,7 +30,11 @@ class Species extends React.Component {
           handleInput={(e) => {
             debouncedDispatch(
               this.props.dispatch,
-              fetchDataAxios("speciesData", `species?search=${e.target.value}`, "name")
+              fetchDataAxios(
+                "speciesData",
+                `species/?search=${e.target.value}`,
+                "name"
+              )
             );
           }}
         />
@@ -51,7 +54,7 @@ class Species extends React.Component {
 const mapStateToProps = (state) => {
   return {
     loading: state.mainState.loading,
-    speciesData: state.mainState.speciesData
+    speciesData: state.mainState.speciesData,
   };
 };
 

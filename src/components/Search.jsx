@@ -1,7 +1,8 @@
 import React from "react";
+
 export default function Search(props) {
   return (
-    <div className="input-search"> 
+    <div className="center-align">
       <input
         type="search"
         onChange={props.handleInput}

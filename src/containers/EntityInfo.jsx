@@ -97,9 +97,11 @@ class EntityInfo extends React.Component {
     );
   }
 }
+
 const mapStateToProps = (state) => {
   return {
     mainState: state.mainState,
   };
 };
+
 export default connect(mapStateToProps)(EntityInfo);

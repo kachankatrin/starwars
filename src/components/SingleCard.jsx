@@ -12,7 +12,7 @@ export default function SingleCard(props) {
     entityCategory,
   } = props;
   const id = splitId(url);
-  
+
   return (
     <Card
       bg="secondary"

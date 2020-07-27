@@ -8,7 +8,7 @@ import { debouncedDispatch } from "../utils";
 
 class People extends React.Component {
   componentDidMount() {
-    this.props.dispatch(fetchDataAxios("peopleData", "people", "name"));
+    this.props.dispatch(fetchDataAxios("peopleData", "people/", "name"));
   }
 
   renderPeople = ({ eye_color, skin_color, hair_color, gender }) => {
@@ -32,7 +32,7 @@ class People extends React.Component {
           handleInput={(e) => {
             debouncedDispatch(
               this.props.dispatch,
-              fetchDataAxios("peopleData", `people?search=${e.target.value}`, "name")
+              fetchDataAxios("peopleData", `people/?search=${e.target.value}`, "name")
             );
           }}
         />
@@ -48,10 +48,12 @@ class People extends React.Component {
     );
   }
 }
+
 const mapStateToProps = (state) => {
   return {
     loading: state.mainState.loading,
     peopleData: state.mainState.peopleData,
   };
 };
+
 export default connect(mapStateToProps)(People);

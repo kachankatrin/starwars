@@ -3,7 +3,7 @@ import { url, sortData } from "../../utils";
 import {
   FETCH_DATA_BEGIN,
   FETCH_DATA_SUCCESS,
-  FETCH_DATA_FAILURE
+  FETCH_DATA_FAILURE,
 } from "./ActionsConstants";
 
 export function fetchDataAxios(key, query, sortKey) {
@@ -16,10 +16,16 @@ export function fetchDataAxios(key, query, sortKey) {
         .then((res) => {
           fetchedData = fetchedData.concat(res.data.results);
           if (res.data.next !== null) {
-            getAllData(res.data.next);
+            let fixedUrl;
+            if (!res.data.next.includes("https")) {
+              fixedUrl = res.data.next.replace("http", "https");
+            } else {
+              fixedUrl = res.data.next;
+            }
+            getAllData(`${fixedUrl}`);
           } else {
             dispatch(fetchDataSuccess(key, fetchedData, sortKey));
-          } 
+          }
         })
         .catch((error) => dispatch(fetchDataFailure(error)));
     };

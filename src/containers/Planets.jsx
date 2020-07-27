@@ -6,13 +6,11 @@ import { debouncedDispatch } from "../utils";
 import Search from "../components/Search";
 
 class Planets extends React.Component {
-
   componentDidMount() {
-    console.log("mount");
-    this.props.dispatch(fetchDataAxios("planetsData", "planets", "name"));
+    this.props.dispatch(fetchDataAxios("planetsData", "planets/", "name"));
   }
 
-  renderPlanet = ({climate, terrain, gravity, diameter}) => {
+  renderPlanet = ({ climate, terrain, gravity, diameter }) => {
     return (
       <ul>
         <li>Climate: {climate}</li>
@@ -22,7 +20,7 @@ class Planets extends React.Component {
       </ul>
     );
   };
-  
+
   renderTitle = ({ name }) => name;
 
   render() {
@@ -33,7 +31,11 @@ class Planets extends React.Component {
           handleInput={(e) => {
             debouncedDispatch(
               this.props.dispatch,
-              fetchDataAxios("planetsData", `planets?search=${e.target.value}`, "name")
+              fetchDataAxios(
+                "planetsData",
+                `planets/?search=${e.target.value}`,
+                "name"
+              )
             );
           }}
         />
@@ -49,10 +51,12 @@ class Planets extends React.Component {
     );
   }
 }
+
 const mapStateToProps = (state) => {
   return {
     loading: state.mainState.loading,
     planetsData: state.mainState.planetsData,
   };
 };
+
 export default connect(mapStateToProps)(Planets);

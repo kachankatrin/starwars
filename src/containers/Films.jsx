@@ -7,10 +7,8 @@ import { debouncedDispatch } from "../utils";
 import Search from "../components/Search";
 
 class Films extends React.Component {
-
   componentDidMount() {
-    console.log("mount");
-    this.props.dispatch(fetchDataAxios("filmsData", "films", "title"));
+    this.props.dispatch(fetchDataAxios("filmsData", "films/", "title"));
   }
 
   renderFilm = ({ episode_id, producer, release_date, director }) => {
@@ -34,7 +32,11 @@ class Films extends React.Component {
           handleInput={(e) => {
             debouncedDispatch(
               this.props.dispatch,
-              fetchDataAxios("filmsData", `films?search=${e.target.value}`, "title")
+              fetchDataAxios(
+                "filmsData",
+                `films/?search=${e.target.value}`,
+                "title"
+              )
             );
           }}
         />

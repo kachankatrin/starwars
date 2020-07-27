@@ -2,6 +2,7 @@
   "name": "starwars-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://kachankatrin.github.io/starwars/",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",

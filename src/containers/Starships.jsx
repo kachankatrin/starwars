@@ -7,11 +7,10 @@ import Search from "../components/Search";
 
 class Starships extends React.Component {
   componentDidMount() {
-    console.log("mount");
-    this.props.dispatch(fetchDataAxios("starshipsData", "starships", "name"));
+    this.props.dispatch(fetchDataAxios("starshipsData", "starships/", "name"));
   }
 
-  renderStarship = ({name, consumables, model}) => {
+  renderStarship = ({ name, consumables, model }) => {
     return (
       <ul>
         <li>Name: {name}</li>
@@ -33,7 +32,7 @@ class Starships extends React.Component {
               this.props.dispatch,
               fetchDataAxios(
                 "starshipsData",
-                `starships?search=${e.target.value}`,
+                `starships/?search=${e.target.value}`,
                 "name"
               )
             );
@@ -55,7 +54,7 @@ class Starships extends React.Component {
 const mapStateToProps = (state) => {
   return {
     loading: state.mainState.loading,
-    starshipsData: state.mainState.starshipsData
+    starshipsData: state.mainState.starshipsData,
   };
 };
 
